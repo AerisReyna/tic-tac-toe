@@ -2,7 +2,9 @@ package com.emberforge.tictactoe
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.google.android.material.snackbar.Snackbar
 import android.os.PersistableBundle
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -54,10 +56,10 @@ class MainActivity : AppCompatActivity() {
             button.setOnClickListener {
                 if (!gameOver) {
                     if (button.text == "X" || button.text == "O") {
-                        Toast.makeText(
-                            applicationContext,
+                        Snackbar.make(
+                            it,
                             "Square is already occupied.",
-                            Toast.LENGTH_SHORT
+                            Snackbar.LENGTH_SHORT
                         ).show()
                     } else {
                         if (isPlayerOneTurn) {
@@ -65,17 +67,17 @@ class MainActivity : AppCompatActivity() {
                         } else {
                             button.text = "O"
                         }
-                        checkForWin()
+                        checkForWin(it)
                         isPlayerOneTurn = !isPlayerOneTurn
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Game Over. Hit 'Reset'!", Toast.LENGTH_SHORT).show()
+                    Snackbar.make(it, "Game Over. Hit 'Reset'!", Snackbar.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    private fun checkForWin() {
+    private fun checkForWin(view: View) {
         var playerWon = false
         if (buttons[0].text != " " && buttons[0].text == buttons[1].text && buttons[1].text == buttons[2].text) {
             playerWon = true
@@ -98,11 +100,11 @@ class MainActivity : AppCompatActivity() {
         if (playerWon && isPlayerOneTurn) {
             playerOneWins.text = (Integer.parseInt(playerOneWins.text.toString()) + 1).toString()
             gameOver = true
-            Toast.makeText(applicationContext, "Player One wins! Hit 'reset' to play again.", Toast.LENGTH_SHORT).show()
+            Snackbar.make(view, "Player One wins! Hit 'reset' to play again.", Snackbar.LENGTH_LONG).show()
         } else if (playerWon && !isPlayerOneTurn) {
             playerTwoWins.text = (Integer.parseInt(playerTwoWins.text.toString()) + 1).toString()
             gameOver = true
-            Toast.makeText(applicationContext, "Player Two wins! Hit 'reset' to play again.", Toast.LENGTH_SHORT).show()
+            Snackbar.make(view, "Player Two wins! Hit 'reset' to play again.", Snackbar.LENGTH_LONG).show()
         }
 
         if (!playerWon) {
@@ -112,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             gameOver = true
-            Toast.makeText(applicationContext, "Tie! Hit 'reset' to play again.", Toast.LENGTH_SHORT).show()
+            Snackbar.make(view, "Tie! Hit 'reset' to play again.", Snackbar.LENGTH_LONG).show()
         }
 
     }
